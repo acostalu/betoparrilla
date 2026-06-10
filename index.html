@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beto Parrilla & Pasta – Pocitos</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+
+  /* ─── RESET & BASE ─────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --fire-orange: #E8621A;
+    --fire-yellow: #F5A623;
+    --ember-red:   #C0392B;
+    --coal-dark:   #0D0D0D;
+    --coal-mid:    #1A1A1A;
+    --coal-light:  #2A2A2A;
+    --ash:         #3D3D3D;
+    --smoke:       #888;
+    --off-white:   #F0EDE8;
+    --cream:       #D9D3C9;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--coal-dark);
+    color: var(--off-white);
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 80%, #3a1200 0%, #1a0800 40%, #000 100%);
+  }
+
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,98,26,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,98,26,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .ember-glow {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(232,98,26,0.45) 0%, rgba(192,57,43,0.15) 50%, transparent 70%);
+    pointer-events: none;
+    animation: emberPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes emberPulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scaleX(1.08); }
+  }
+
+  .hero-logo {
+    position: relative;
+    z-index: 2;
+    width: min(480px, 88vw);
+    filter: drop-shadow(0 0 40px rgba(232,98,26,0.6));
+    animation: logoAppear 1.2s ease-out both;
+  }
+
+  @keyframes logoAppear {
+    from { opacity: 0; transform: translateY(-30px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .hero-tagline {
+    position: relative;
+    z-index: 2;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-top: 1.2rem;
+    animation: fadeUp 1.5s 0.4s ease-out both;
+  }
+
+  .hero-divider {
+    position: relative;
+    z-index: 2;
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--fire-orange), transparent);
+    margin: 1.4rem auto 2rem;
+    animation: fadeUp 1.5s 0.6s ease-out both;
+  }
+
+  .hero-info-strip {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1.5s 0.8s ease-out both;
+  }
+
+  .hero-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-info-item svg {
+    color: var(--fire-orange);
+    flex-shrink: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--smoke);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: fadeUp 2s 1.4s ease-out both;
+  }
+
+  .scroll-arrow {
+    width: 18px; height: 18px;
+    border-right: 2px solid var(--fire-orange);
+    border-bottom: 2px solid var(--fire-orange);
+    transform: rotate(45deg);
+    animation: bounce 1.6s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50%       { transform: rotate(45deg) translateY(5px); }
+  }
+
+  /* ─── MAIN NAV / TABS ─────────────────────────────────────── */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,98,26,0.2);
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Tab bar – adapted from provided snippet, dark theme */
+  .segmented {
+    --padding: 0.25rem;
+    --bg-track: #1f1f1f;
+    display: flex;
+    padding: var(--padding);
+    border-radius: 9999px;
+    background: var(--bg-track);
+    position: relative;
+    border: 1px solid var(--ash);
+  }
+
+  .segmented::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--fire-orange), var(--ember-red));
+    box-shadow: 0 0 18px rgba(232,98,26,0.5);
+    transition: inset 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    inset:
+      calc(anchor(top, --segmented-button-checked) - var(--padding) + var(--padding))
+      calc(100% - anchor(right, --segmented-button-checked) - var(--padding))
+      calc(100% - anchor(bottom, --segmented-button-checked) - var(--padding))
+      calc(anchor(left, --segmented-button-checked) - var(--padding));
+  }
+
+  .segmented-button {
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.55rem 1.25rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    cursor: pointer;
+    z-index: 1;
+    transition: color 0.2s;
+    white-space: nowrap;
+    anchor-name: var(--tab-anchor-name, --fallback-anchor);
+  }
+
+  .segmented-button:has(:checked) {
+    color: #fff;
+    --tab-anchor-name: --segmented-button-checked;
+  }
+
+  .segmented-button:hover { color: var(--off-white); }
+
+  .segmented-button input {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border-width: 0;
+  }
+
+  /* ─── SECTIONS ─────────────────────────────────────────────── */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+
+  .section-title span {
+    color: var(--fire-orange);
+  }
+
+  .section-rule {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--fire-orange), var(--fire-yellow));
+    margin-bottom: 2.5rem;
+    border-radius: 2px;
+  }
+
+  /* ─── MENU ─────────────────────────────────────────────────── */
+  .menu-category {
+    margin-bottom: 3rem;
+  }
+
+  .menu-cat-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fire-orange);
+    border-bottom: 1px solid var(--ash);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .menu-cat-title svg {
+    width: 18px; height: 18px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.4rem 2rem;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.45rem 0;
+    border-bottom: 1px dotted rgba(255,255,255,0.07);
+    gap: 1rem;
+  }
+
+  .menu-item-name {
+    font-size: 0.9rem;
+    color: var(--cream);
+    font-weight: 300;
+    flex: 1;
+  }
+
+  .menu-item-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fire-yellow);
+    white-space: nowrap;
+  }
+
+  /* ─── INFO SECTION ─────────────────────────────────────────── */
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    background: var(--coal-mid);
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    padding: 1.8rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--fire-orange), var(--fire-yellow));
+  }
+
+  .info-card-icon {
+    color: var(--fire-orange);
+    margin-bottom: 0.8rem;
+  }
+
+  .info-card-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 0.5rem;
+  }
+
+  .info-card-value {
+    font-size: 0.95rem;
+    color: var(--off-white);
+    line-height: 1.7;
+  }
+
+  .info-card-value a {
+    color: var(--fire-orange);
+    text-decoration: none;
+  }
+
+  .info-card-value a:hover {
+    text-decoration: underline;
+  }
+
+  /* ─── PHOTOS ────────────────────────────────────────────────── */
+  .photos-placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 220px 180px;
+    gap: 0.8rem;
+  }
+
+  .photo-slot {
+    background: var(--coal-mid);
+    border: 1px dashed var(--ash);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: var(--smoke);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+
+  .photo-slot:hover {
+    border-color: var(--fire-orange);
+    background: rgba(232,98,26,0.04);
+  }
+
+  .photo-slot svg {
+    opacity: 0.35;
+    width: 32px; height: 32px;
+  }
+
+  .photo-slot:first-child {
+    grid-row: 1 / 3;
+  }
+
+  @media (max-width: 580px) {
+    .photos-placeholder-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+    .photo-slot:first-child { grid-row: auto; }
+  }
+
+  /* ─── REVIEWS ─────────────────────────────────────────────── */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .review-card {
+    background: var(--coal-mid);
+    border: 1px solid var(--ash);
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 0.8rem;
+  }
+
+  .review-stars svg {
+    width: 15px; height: 15px;
+    color: var(--fire-yellow);
+  }
+
+  .review-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--cream);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .review-quote {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 3rem;
+    line-height: 1;
+    color: rgba(232,98,26,0.12);
+    font-family: Georgia, serif;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .contact-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(232,98,26,0.25);
+    border-radius: 1rem;
+    color: var(--off-white);
+    text-decoration: none;
+    background: linear-gradient(145deg, rgba(232,98,26,0.15), rgba(192,57,43,0.1));
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(232,98,26,0.45);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  }
+
+  .contact-button span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .contact-button small {
+    color: var(--cream);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--ash);
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--smoke);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  footer a {
+    color: var(--fire-orange);
+    text-decoration: none;
+  }
+
+  /* ─── TAB CONTENT VISIBILITY ─────────────────────────────── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 540px) {
+    .segmented-button {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.72rem;
+    }
+    .hero-info-strip { gap: 1.2rem; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="ember-glow"></div>
+
+  <img class="hero-logo"
+    src="logo.png"
+    alt="Beto Parrilla & Pasta">
+
+  <p class="hero-tagline">Restaurante familiar · Parrilla · Pocitos</p>
+  <div class="hero-divider"></div>
+
+  <div class="hero-info-strip">
+    <div class="hero-info-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Rivera 2651 esq. Brito del Pino
+    </div>
+    <div class="hero-info-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.2 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56A16 16 0 0 0 16 16.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      2709 2049
+    </div>
+    <div class="hero-info-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"/><path d="M16.5 11.37A4 4 0 1 1 12.63 7.5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      @betoparrilla.uy
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    ver menú
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ════════════════════ STICKY TAB NAV ════════════════════ -->
+<nav class="sticky-nav">
+  <div class="segmented" role="tablist">
+    <label class="segmented-button" role="tab">
+      <input type="radio" name="tab" value="menu" checked onchange="switchTab('menu')">
+      Menú
+    </label>
+    <label class="segmented-button" role="tab">
+      <input type="radio" name="tab" value="info" onchange="switchTab('info')">
+      Info
+    </label>
+    <label class="segmented-button" role="tab">
+      <input type="radio" name="tab" value="fotos" onchange="switchTab('fotos')">
+      Fotos
+    </label>
+    <label class="segmented-button" role="tab">
+      <input type="radio" name="tab" value="resenas" onchange="switchTab('resenas')">
+      Reseñas
+    </label>
+    <label class="segmented-button" role="tab">
+      <input type="radio" name="tab" value="contacto" onchange="switchTab('contacto')">
+      Contacto
+    </label>
+  </div>
+</nav>
+
+<!-- ════════════════════ TAB: MENÚ ════════════════════ -->
+<div id="tab-menu" class="tab-content active">
+  <div class="section">
+
+    <h2 class="section-title"><span>##</span> Minutas</h2>
+    <div class="section-rule"></div>
+
+    <!-- MILANESAS -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        Milanesas
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Carne o pollo</span><span class="menu-item-price">$330</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ guarnición</span><span class="menu-item-price">$440</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ guarnición + muzzarella + panceta</span><span class="menu-item-price">$660</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ guarnición + muzzarella + tomate</span><span class="menu-item-price">$660</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ guarnición + muzzarella + cebolla</span><span class="menu-item-price">$660</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ guarnición + cheddar + panceta</span><span class="menu-item-price">$660</span></div>
+        <div class="menu-item"><span class="menu-item-name">Napolitana para uno</span><span class="menu-item-price">$620</span></div>
+        <div class="menu-item"><span class="menu-item-name">Napolitana para dos</span><span class="menu-item-price">$1.000</span></div>
+        <div class="menu-item"><span class="menu-item-name">De pescado c/ guarnición</span><span class="menu-item-price">$470</span></div>
+      </div>
+    </div>
+
+    <!-- PAPAS -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        Papas fritas
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Porción</span><span class="menu-item-price">$240</span></div>
+        <div class="menu-item"><span class="menu-item-name">½ porción</span><span class="menu-item-price">$150</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ champiñones</span><span class="menu-item-price">$390</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ cheddar</span><span class="menu-item-price">$390</span></div>
+        <div class="menu-item"><span class="menu-item-name">c/ 4 quesos</span><span class="menu-item-price">$390</span></div>
+        <div class="menu-item"><span class="menu-item-name">Gramajo</span><span class="menu-item-price">$430</span></div>
+        <div class="menu-item"><span class="menu-item-name">Noissette porción</span><span class="menu-item-price">$275</span></div>
+        <div class="menu-item"><span class="menu-item-name">Noissette ½ porción</span><span class="menu-item-price">$150</span></div>
+      </div>
+    </div>
+
+    <!-- CHIVITOS -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Chivitos
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Canadiense c/ fritas</span><span class="menu-item-price">$550</span></div>
+        <div class="menu-item"><span class="menu-item-name">Canadiense para dos</span><span class="menu-item-price">$1.000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al plato</span><span class="menu-item-price">$550</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al plato para dos</span><span class="menu-item-price">$1.000</span></div>
+      </div>
+    </div>
+
+    <!-- HAMBURGUESAS -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><path d="M5 12V7a7 7 0 0 1 14 0v5"/><path d="M5 12a7 7 0 0 0 14 0"/></svg>
+        Hamburguesas
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Al pan</span><span class="menu-item-price">$250</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al pan c/ guarnición</span><span class="menu-item-price">$360</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al pan completa c/ guarnición</span><span class="menu-item-price">$450</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al plato c/ guarnición</span><span class="menu-item-price">$360</span></div>
+        <div class="menu-item"><span class="menu-item-name">Al plato completa c/ guarnición</span><span class="menu-item-price">$450</span></div>
+      </div>
+    </div>
+
+    <!-- SEPARADOR -->
+    <h2 class="section-title" style="margin-top:1rem"><span>##</span> A las Brasas</h2>
+    <div class="section-rule"></div>
+
+    <!-- CARNES -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Cortes &amp; achuras
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Chorizo</span><span class="menu-item-price">$180</span></div>
+        <div class="menu-item"><span class="menu-item-name">Chorizo al pan</span><span class="menu-item-price">$200</span></div>
+        <div class="menu-item"><span class="menu-item-name">Morcilla</span><span class="menu-item-price">$180</span></div>
+        <div class="menu-item"><span class="menu-item-name">Morcilla al pan</span><span class="menu-item-price">$200</span></div>
+        <div class="menu-item"><span class="menu-item-name">Chinchulín</span><span class="menu-item-price">$240</span></div>
+        <div class="menu-item"><span class="menu-item-name">Riñón</span><span class="menu-item-price">$240</span></div>
+        <div class="menu-item"><span class="menu-item-name">Entraña</span><span class="menu-item-price">$650</span></div>
+        <div class="menu-item"><span class="menu-item-name">Asado</span><span class="menu-item-price">$650</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pulpón</span><span class="menu-item-price">$690</span></div>
+        <div class="menu-item"><span class="menu-item-name">Bife de vacío</span><span class="menu-item-price">$690</span></div>
+        <div class="menu-item"><span class="menu-item-name">Bife ancho</span><span class="menu-item-price">$690</span></div>
+        <div class="menu-item"><span class="menu-item-name">Master Beef Tomahawk c/ guarnición</span><span class="menu-item-price">$1.200</span></div>
+        <div class="menu-item"><span class="menu-item-name">Bondiola asada</span><span class="menu-item-price">$450</span></div>
+        <div class="menu-item"><span class="menu-item-name">Picanha</span><span class="menu-item-price">$690</span></div>
+      </div>
+    </div>
+
+    <!-- POLLO -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Pollo
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Pollo entero</span><span class="menu-item-price">$750</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pollo deshuesado</span><span class="menu-item-price">$540</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pollo al ajillo</span><span class="menu-item-price">$540</span></div>
+        <div class="menu-item"><span class="menu-item-name">Muslo o pechuga</span><span class="menu-item-price">$280</span></div>
+      </div>
+    </div>
+
+    <!-- GUARNICIONES / EXTRAS -->
+    <div class="menu-category">
+      <div class="menu-cat-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Guarniciones &amp; extras
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item"><span class="menu-item-name">Papa al plomo</span><span class="menu-item-price">$130</span></div>
+        <div class="menu-item"><span class="menu-item-name">Papas al roquefort</span><span class="menu-item-price">$230</span></div>
+        <div class="menu-item"><span class="menu-item-name">Boniato al plomo</span><span class="menu-item-price">$130</span></div>
+        <div class="menu-item"><span class="menu-item-name">Boniato glaseado</span><span class="menu-item-price">$160</span></div>
+        <div class="menu-item"><span class="menu-item-name">Calabaza asada</span><span class="menu-item-price">$130</span></div>
+        <div class="menu-item"><span class="menu-item-name">Morrón relleno</span><span class="menu-item-price">$270</span></div>
+        <div class="menu-item"><span class="menu-item-name">Provolone clásico</span><span class="menu-item-price">$290</span></div>
+        <div class="menu-item"><span class="menu-item-name">Provolone tomate y albahaca</span><span class="menu-item-price">$350</span></div>
+        <div class="menu-item"><span class="menu-item-name">Provolone aceituna y panceta</span><span class="menu-item-price">$350</span></div>
+        <div class="menu-item"><span class="menu-item-name">Medallón de provolone</span><span class="menu-item-price">$350</span></div>
+      </div>
+    </div>
+
+  </div><!-- /section -->
+</div><!-- /tab-menu -->
+
+<!-- ════════════════════ TAB: INFO ════════════════════ -->
+<div id="tab-info" class="tab-content">
+  <div class="section">
+    <h2 class="section-title"><span>Dónde</span> encontrarnos</h2>
+    <div class="section-rule"></div>
+
+    <div class="info-cards">
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="info-card-label">Dirección</div>
+        <div class="info-card-value">
+          Rivera 2651 esq. Brito del Pino<br>Pocitos, Montevideo
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="info-card-label">Horario</div>
+        <div class="info-card-value">
+          Mar – Mié: 10:00 – 00:00<br>
+          Jue – Sáb: 10:00 – 01:00<br>
+          Dom: 10:00 – 00:00
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.2 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56A16 16 0 0 0 16 16.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="info-card-label">Teléfono</div>
+        <div class="info-card-value">
+          <a href="tel:27092049">2709 2049</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="info-card-label">WhatsApp</div>
+        <div class="info-card-value">
+          <a href="https://wa.me/598095407054" target="_blank">095 407 054</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div class="info-card-label">Instagram</div>
+        <div class="info-card-value">
+          <a href="https://instagram.com/betoparrilla.uy" target="_blank">@betoparrilla.uy</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="info-card-label">Espacios</div>
+        <div class="info-card-value">
+          Salón planta baja<br>
+          Planta alta<br>
+          Subsuelo (eventos)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ TAB: FOTOS ════════════════════ -->
+<div id="tab-fotos" class="tab-content">
+  <div class="section">
+    <h2 class="section-title">Galería de <span>fotos</span></h2>
+    <div class="section-rule"></div>
+    <p style="color:var(--smoke); font-size:0.85rem; margin-bottom:2rem; letter-spacing:0.05em;">
+      Espacio reservado para las fotos del local. Podés agregar imágenes reales del restaurante, platos y ambiente.
+    </p>
+    <div class="photos-placeholder-grid">
+      <div class="photo-slot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Foto principal
+      </div>
+      <div class="photo-slot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        La parrilla
+      </div>
+      <div class="photo-slot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Platos destacados
+      </div>
+      <div class="photo-slot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        El salón
+      </div>
+      <div class="photo-slot">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Ambiente
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ TAB: RESEÑAS ════════════════════ -->
+<div id="tab-resenas" class="tab-content">
+  <div class="section">
+    <h2 class="section-title">Lo que dicen <span>nuestros clientes</span></h2>
+    <div class="section-rule"></div>
+
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="review-text">Muy buena parrillada en Pocitos. La carne es tierna y las porciones abundantes. Pedimos bife de vacío, asado, pasta y boniatos. La pasta también estaba muy rica. Los precios son muy buenos. Tienen televisores con deportes. Muy buena labor del asador, fuimos un viernes de noche.</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="review-text">Me gustó mucho el lugar. Tanto la atención como la calidad de la comida me parecían muy buena. Me pedí unos sorrentinos con bebida y postre y pagué mil y pocos pesos; las porciones eran considerables.</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="review-text">Excelente lugar, porciones super grandes y a muy buen precio. La carne super tierna, las verduras frescas y el pan casero con el que te reciben está a otro nivel. Música de ambiente agradable y las mozas unas genias. Sin dudas un lugar que recomendamos y vamos a volver.</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="review-text">Fuimos por primera vez y quedamos muy conformes. Pedimos parrilla y papas fritas. Las porciones bien servidas, la carne de calidad y las papas exquisitas. La comida llegó enseguida. La atención de la moza y el dueño fue excelente. Volveremos.</p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <div class="review-stars">
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="review-text">Me pareció un buen lugar para cenar. La comida es rica y las porciones son abundantes, los precios son justos. La atención muy buena, la mesera muy amable. El ambiente es agradable, hay mesas al interior y al exterior. Recomiendo mucho el lugar.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ TAB: CONTACTO ════════════════════ -->
+<div id="tab-contacto" class="tab-content">
+  <div class="section">
+    <h2 class="section-title">Ponete en <span>contacto</span></h2>
+    <div class="section-rule"></div>
+
+    <div class="contact-actions">
+      <a class="contact-button" href="https://maps.google.com/?q=Rivera+2651+Pocitos+Montevideo" target="_blank" rel="noopener noreferrer">
+        <span>Maps</span>
+        <small>Rivera 2651 esq. Brito del Pino</small>
+      </a>
+      <a class="contact-button" href="tel:27092049">
+        <span>Teléfono</span>
+        <small>2709 2049</small>
+      </a>
+      <a class="contact-button" href="https://instagram.com/betoparrilla.uy" target="_blank" rel="noopener noreferrer">
+        <span>Instagram</span>
+        <small>@betoparrilla.uy</small>
+      </a>
+      <a class="contact-button" href="https://wa.me/598095407054" target="_blank" rel="noopener noreferrer">
+        <span>WhatsApp</span>
+        <small>095 407 054</small>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <p>© 2025 Beto Parrilla &amp; Pasta · Rivera 2651, Pocitos · <a href="https://instagram.com/betoparrilla.uy" target="_blank">@betoparrilla.uy</a></p>
+</footer>
+
+<script>
+  function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
