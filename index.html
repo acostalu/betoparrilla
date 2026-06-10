@@ -177,6 +177,19 @@
     padding: 0.8rem 1rem;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-logo {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    padding: 0.25rem;
+    box-shadow: 0 0 12px rgba(232,98,26,0.18);
   }
 
   /* Tab bar – adapted from provided snippet, dark theme */
@@ -575,6 +588,7 @@
 
 <!-- ════════════════════ STICKY TAB NAV ════════════════════ -->
 <nav class="sticky-nav">
+  <img class="nav-logo" src="logo.png" alt="Beto Parrilla & Pasta">
   <div class="segmented" role="tablist">
     <label class="segmented-button" role="tab">
       <input type="radio" name="tab" value="menu" checked onchange="switchTab('menu')">
